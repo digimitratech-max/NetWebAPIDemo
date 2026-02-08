@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentRegistration.Business.Responses;
 using StudentRegistration.Business.Services;
 using StudentRegistration.Data.Entities;
 
@@ -11,6 +12,7 @@ namespace StudentRegistration.API.Controllers
         private readonly StudentService _service = new StudentService();
 
         [HttpGet]
+        [Route("Getall")]
         public IActionResult GetAll()
         {
             
@@ -18,18 +20,21 @@ namespace StudentRegistration.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(Student student)
+        [Route("Register")]
+        public async Task<ApiResponse<Student>> Register(Student student)
         {
-            return Ok(await _service.RegisterAsync(student));
+            var response = await _service.RegisterAsync(student);
+            return response;
         }
 
         [HttpPut]
+        [Route("UpdateStudent")]
         public IActionResult Update(Student student)
         {
             return Ok(_service.Update(student));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")]        
         public IActionResult Delete(int id)
         {
             return Ok(_service.Delete(id));
